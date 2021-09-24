@@ -29,8 +29,7 @@
 
 // Then the function will randomly assign which variable each character is getting (useUpperCase, useLowerCase, useNumbers, useSpecial)
 
-// When functions are complete, display password ON PAGE or in alert (alert uses alert())
-
+// When functions are complete, display password on the page (textarea)
 
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
@@ -38,57 +37,162 @@ var generateBtn = document.querySelector("#generate");
 function generatePassword() {
   // TODO: Your code to generate a password goes here. Be sure to return a password
   // string. You will need to change the following two lines of code.
-  var passLength = prompt ("Please enter a number between 8 and 128 to specify password length");
 
-  if (passLength > 8 && passLength < 128) {
-    var useLowerCase = confirm ("Would you like to use lower case letters?");
-    var useUpperCase = confirm ("Would you like to use upper case letters?");
-    var useNubmers = confirm ("Would you like to use numbers?");
-    var useSpecial = confirm ("Would you like to use special symbols?");
-    if (useLowerCase === false && useUpperCase === false && useNubmers === false && useSpecial === false) {
-      alert ("Please select at least one type of characters!")
-      // return generatePassword();
-    } 
-  } else {
-    alert ("Please select a number from 8 to 128");
-    // return generatePassword();
+  // Initialize and declare arrays for different charactoer options
+  var useLowerCase = [
+    "a",
+    "b",
+    "c",
+    "d",
+    "e",
+    "f",
+    "g",
+    "h",
+    "i",
+    "j",
+    "k",
+    "l",
+    "m",
+    "n",
+    "o",
+    "p",
+    "q",
+    "r",
+    "s",
+    "t",
+    "u",
+    "v",
+    "w",
+    "x",
+    "y",
+    "z",
+  ];
+  var useUpperCase = [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z",
+  ];
+  var useNumbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  var useSpecial = [
+    "!",
+    '"',
+    "#",
+    "$",
+    "%",
+    "&",
+    "'",
+    "(",
+    ")",
+    "*",
+    "+",
+    ",",
+    "-",
+    ".",
+    "/",
+    ":",
+    ";",
+    "<",
+    "=",
+    ">",
+    "?",
+    "@",
+    "[",
+    "\\",
+    "]",
+    "^",
+    "_",
+    "`",
+    "{",
+    "|",
+    "}",
+    "~",
+  ];
+
+  // Prompt window to indicate the users what to enter
+  var passLength = prompt(
+    "Please enter a number between 8 and 128 to specify password length"
+  );
+
+  // Initialize and declare an new array that includes the character options the user may select
+  var charOption = [];
+
+  // If the password length dosen't meet requirement, alert massage pops up and return to the beginning of the function
+  if (passLength < 8 || passLength > 128) {
+    alert("Please select a number from 8 to 128");
+    return generatePassword();
   }
 
-
-  var arrLowerCase = ['a', 'b','c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
-   'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
-  var arrUperCase = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
-  'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-  var arrNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-  var arrSpecial = ["!", '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', ".", '/', ':', 
-  ';', '<', '=','>', '?', '@', '[', '\\', ']', '^', '_', "`", '{', '|', '}', '~'];
-
-
-  if (useLowerCase) {
-    console.log(arrLowerCase[Math.floor(Math.random() * arrLowerCase.length)]);
-  } else if (useUpperCase) {
-    console.log(arrUperCase[Math.floor(Math.random() * arrUperCase.length)]);
-  } else if (useNubmers) {
-    console.log(arrNumbers[Math.floor(Math.random() * arrNumbers.length)]);
-  } else if (useSpecial) {
-    console.log(arrSpecial[Math.floor(Math.random() * arrSpecial.length)]);
+  // If the previous alert didn't trigger, comfirm window pops up to select one character option or not 
+  // If selected, include the char option into the new array create above (charOption)
+  if (confirm("Would you like to use lower case letters?")) {
+    charOption = charOption.concat(useLowerCase);
   }
 
-  
+  //repeat above 
+  if (confirm("Would you like to use upper case letters?")) {
+    charOption = charOption.concat(useUpperCase);
+  }
 
+  //repeat above 
+  if (confirm("Would you like to use numbers?")) {
+    charOption = charOption.concat(useNumbers);
+  }
 
+  //repeat above 
+  if (confirm("Would you like to use special symbols?")) {
+    charOption = charOption.concat(useSpecial);
+  }
 
+  // If no char options are selected, alert the user to select at lease one and return back to the beginning
+  if (charOption === 0) {
+    alert("Please select at least one type of characters!");
+    return;
+  }
 
-  var password = "password1234";
-  return password;
+  //Initialize a new variable and assign an empty string to it
+  var SecurePassword = "";
+  var length = passLength;
+
+  // Loop through the password length the user enters, meanwhile assign random 
+  // values from selected char option(s)
+  for (var i = 0; i < length; i++) {
+    SecurePassword += charOption[Math.floor(Math.random() * charOption.length)];
+  }
+
+  // Return the final password gernerated randomly
+  var SecurePassword = SecurePassword;
+  return SecurePassword;
 }
 
 // Write password to the #password input
 function writePassword() {
-  var password = generatePassword();
+  var SecurePassword = generatePassword();
   var passwordText = document.querySelector("#password");
 
-  passwordText.value = password;
+  passwordText.value = SecurePassword;
 }
 
 // Add event listener to generate button
